@@ -1,0 +1,14 @@
+program: esh_train_cifar.py
+method: grid
+metric:
+  name: loss
+  goal: minimize
+parameters:
+  optimizer:
+    values: ["adam"]
+  batch_size:
+    values: [32]
+  act:
+    values: ["relu", "mish"]
+  version:
+    values: ['vgg16']
