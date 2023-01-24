@@ -26,7 +26,7 @@ from torch.autograd import Variable
 
 def main():
     global best_prec1, evaluate
-    max_epoch = 200
+    max_epoch = 5
 
     wandb.init(project="Esh_v1")
 

@@ -6,7 +6,7 @@ def conv_layer(chann_in, chann_out, k_size, p_size, act):
     layer = nn.Sequential(
         nn.Conv2d(chann_in, chann_out, kernel_size=k_size, padding=p_size),
         nn.BatchNorm2d(chann_out),
-        Activation(act).act_func()
+        Activation(act)
     )
     return layer
 
@@ -20,7 +20,7 @@ def vgg_fc_layer(size_in, size_out, act):
     layer = nn.Sequential(
         nn.Linear(size_in, size_out),
         nn.BatchNorm1d(size_out),
-        Activation(act).act_func()
+        Activation(act)
     )
     return layer
 
@@ -36,7 +36,7 @@ class VGG(nn.Module):
         self.layer5 = vgg_conv_block([512,512,512], [512,512,512], [3,3,3], [1,1,1], 2, 2, act)
 
         # FC layers
-        self.layer6 = vgg_fc_layer(7*7*512, 512, act)
+        self.layer6 = vgg_fc_layer(512, 512, act)
         self.layer7 = vgg_fc_layer(512, 256, act)
 
         # Final layer
@@ -53,7 +53,7 @@ class VGG(nn.Module):
         out = self.layer7(out)
         out = self.layer8(out)
 
-        return vgg16_features, out
+        return out
 
 def vgg16(num_classes = 10, act = 'esh',):
     return VGG(n_classes=num_classes, act = act)

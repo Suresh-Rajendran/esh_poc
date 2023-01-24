@@ -35,7 +35,7 @@ class BasicBlock(nn.Module):
             planes, planes, kernel_size=3, stride=1, padding=1, bias=False
         )
         self.bn2 = nn.BatchNorm2d(planes)
-        self.act = Activation(act).act_func()
+        self.act = Activation(act)
         self.shortcut = nn.Sequential(
                     nn.Conv2d(
                         in_planes,
