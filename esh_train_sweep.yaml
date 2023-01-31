@@ -1,4 +1,4 @@
-program: train_cifar.py
+program: train_cifar10.py
 method: grid
 metric:
   name: loss
@@ -9,6 +9,6 @@ parameters:
   batch_size:
     values: [32]
   act:
-    values: ["relu", "mish"]
+    values: ["relu", "mish", 'swish', 'esh', 'selu', 'elu','gelu', 'leakyrelu']
   version:
-    values: ['vgg16']
+    values: ['resnet56']

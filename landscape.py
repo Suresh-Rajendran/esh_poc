@@ -45,7 +45,7 @@ def main():
     model_relu = build_model(nn.ReLU())
     model_swish = build_model(nn.SiLU())
     model_mish = build_model(nn.Mish())
-    model_esh = build_model(Activation('esh').act_func())
+    model_esh = build_model(Activation('esh'))
 
     x = np.linspace(0.0, 10.0, num=400)
     y = np.linspace(0.0, 10.0, num=400)

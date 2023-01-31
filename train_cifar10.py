@@ -21,6 +21,7 @@ import torchvision.transforms as transforms
 import wandb
 from resnet import *
 from vgg import *
+from cnn import *
 from torch.autograd import Variable
 
 
@@ -36,6 +37,8 @@ def main():
         model = resnet56(act=wandb.config.act)
     elif wandb.config.version == 'vgg16':
         model = vgg16(act=wandb.config.act)
+    elif wandb.config.version == 'cnn':
+        model = simpleCNet(act=wandb.config.act)
     wandb.watch(model)
     model = model.cuda()
 
@@ -87,7 +90,7 @@ def main():
         pin_memory=True,
     )
 
-    # define loss function (criterion) and pptimizer
+    # define loss function (criterion) and optimizer
     criterion = nn.CrossEntropyLoss()
     criterion = criterion.cuda()
 
@@ -95,8 +98,7 @@ def main():
         optimizer = torch.optim.SGD(
             model.parameters(), 0.1, 
             momentum=0.9, 
-            weight_decay=1e-5
-        )
+            weight_decay=1e-5)
     else:
         optimizer = torch.optim.Adam(model.parameters())
 
