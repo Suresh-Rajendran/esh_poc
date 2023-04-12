@@ -29,12 +29,10 @@ def main():
     global best_prec1, evaluate
     max_epoch = 5
 
-    wandb.init(project="Esh_v1")
-
     if wandb.config.version == 'resnet20':
-        model = resnet20(act=wandb.config.act)
+        model = resnet20(act=wandb.config.act, kernel_size = wandb.config.kernel_size)
     elif wandb.config.version == 'resnet56':
-        model = resnet56(act=wandb.config.act)
+        model = resnet56(act=wandb.config.act, kernel_size = wandb.config.kernel_size)
     elif wandb.config.version == 'vgg16':
         model = vgg16(act=wandb.config.act)
     elif wandb.config.version == 'cnn':

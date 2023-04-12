@@ -25,14 +25,14 @@ class LambdaLayer(nn.Module):
 class BasicBlock(nn.Module):
     expansion = 1
 
-    def __init__(self, in_planes, planes, stride=1, act="esh"):
+    def __init__(self, in_planes, planes, stride=1, act="esh", kernel_size=3):
         super(BasicBlock, self).__init__()
         self.conv1 = nn.Conv2d(
-            in_planes, planes, kernel_size=3, stride=stride, padding=1, bias=False
+            in_planes, planes, kernel_size=kernel_size, stride=stride, padding=1, bias=False
         )
         self.bn1 = nn.BatchNorm2d(planes)
         self.conv2 = nn.Conv2d(
-            planes, planes, kernel_size=3, stride=1, padding=1, bias=False
+            planes, planes, kernel_size=kernel_size, stride=1, padding=1, bias=False
         )
         self.bn2 = nn.BatchNorm2d(planes)
         self.act = Activation(act)
@@ -55,11 +55,11 @@ class BasicBlock(nn.Module):
 
 
 class ResNet(nn.Module):
-    def __init__(self, block, act, num_blocks, num_classes=10):
+    def __init__(self, block, act, num_blocks, num_classes=10, kernel_size=3):
         super(ResNet, self).__init__()
         self.in_planes = 16
 
-        self.conv1 = nn.Conv2d(3, 16, kernel_size=3, stride=1, padding=1, bias=False)
+        self.conv1 = nn.Conv2d(3, 16, kernel_size=kernel_size, stride=1, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(16)
         self.layer1 = self._make_layer(block, act, 16, num_blocks[0], stride=1)
         self.layer2 = self._make_layer(block, act, 32, num_blocks[1], stride=2)
@@ -68,11 +68,11 @@ class ResNet(nn.Module):
         self.act = Activation(act)
         self.apply(_weights_init)
 
-    def _make_layer(self, block, act, planes, num_blocks, stride):
+    def _make_layer(self, block, act, planes, num_blocks, stride, kernel_size):
         strides = [stride] + [1] * (num_blocks - 1)
         layers = []
         for stride in strides:
-            layers.append(block(self.in_planes, planes, stride, act))
+            layers.append(block(self.in_planes, planes, stride, act, kernel_size))
             self.in_planes = planes * block.expansion
 
         return nn.Sequential(*layers)
@@ -88,9 +88,9 @@ class ResNet(nn.Module):
         return out
 
 
-def resnet20(act="esh"):
-    return ResNet(BasicBlock, act, [3, 3, 3], num_classes=10)
+def resnet20(act="esh", kernel_size = 3):
+    return ResNet(BasicBlock, act, [3, 3, 3], num_classes=10, kernel_size=kernel_size)
 
 
-def resnet56(act="esh"):
-    return ResNet(BasicBlock, act, [9, 9, 9], num_classes=10)
+def resnet56(act="esh", kernel_size = 3):
+    return ResNet(BasicBlock, act, [9, 9, 9], num_classes=10, kernel_size=kernel_size)

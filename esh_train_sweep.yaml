@@ -4,6 +4,8 @@ metric:
   name: loss
   goal: minimize
 parameters:
+  kernel_size:
+    values: [2, 3]
   optimizer:
     values: ["adam"]
   batch_size:
